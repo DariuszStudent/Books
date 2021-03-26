@@ -8,7 +8,7 @@ namespace Books.Core
     {
         private string FileName { get; set; } = "books.txt";
 
-        public void AddBookToCTor(Action<int, string, decimal, int, bool> AddNewBook)
+        public void AddBookToCTor(Action<int, string, string, decimal, bool> AddNewBook)
         {
             // jeśli nie ma pliku wyjdź z funckji, dalej nie idź, bo wywali błąd i zatrzyma program.
             if (!File.Exists(FileName)) return;
@@ -26,9 +26,9 @@ namespace Books.Core
                  * tu miałem największy problem, nie chciałem powielać kodu a to rozwiązanie nie wydaje mi się zbyt elastyczne
                  * ale działa. bool = false oznacza tutaj że nie chcemy zapisać jej do pliku, wkońcu odczytujemy, więc po co :)
                  */
-                if (int.TryParse(lineItems[0], out var id) && decimal.TryParse(lineItems[2], out var price) && int.TryParse(lineItems[3], out var quantity))
+                if (int.TryParse(lineItems[0], out var id) && int.TryParse(lineItems[3], out var quantity))
                 {
-                    AddNewBook(id, lineItems[1], price, quantity, false);
+                    AddNewBook(id, lineItems[1], lineItems[2], quantity, false);
                 }
             }
         }

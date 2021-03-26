@@ -5,7 +5,7 @@ namespace Books.Core
 {
     public class DBManager : IManager
     {
-        public void AddBookToCTor(Action<int, string, decimal, int, bool> AddNewBook)
+        public void AddBookToCTor(Action<int, string, string, decimal, bool> AddNewBook)
         {
             // w przyszłości kod który doda książki z bazy danych do programów
         }

@@ -31,9 +31,9 @@ namespace Books.Core
             manager.AddBookToCTor(AddBook);
         }
 
-        public void AddBook(int id, string name, decimal price, int quantity, bool shouldToSave = true)
+        public void AddBook(int id, string name, string author, decimal price, bool shouldToSave = true)
         {
-            var book = new Book(id, name, price, quantity);
+            var book = new Book(id, name, author, price);
             Books.Add(book);
             // dzięki wartości bool shouldToSave panujemy nad tym czy dodajemy do pliku czy nie.
             // w konstruktorze nie chcemy tego robić, bo po co, za to jak dodajemy książkę to tak
@@ -87,7 +87,7 @@ namespace Books.Core
 
             foreach (var book in Books)
             {
-                var stringEdit = "Id. " + book.Id + ". " + book.Name + ". " + book.Price + "zł. / ilość: " + book.Quantity;
+                var stringEdit = "Id. " + book.Id + " | " + book.Name + " | Autor: " + book.Author + " | " + book.Price + "zł.";
                 stringBooks.Add(stringEdit);
             }
             return stringBooks;

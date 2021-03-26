@@ -15,14 +15,15 @@ public class BooksApp
 
     public void AddBook()
     {
-        Console.WriteLine("Id nowej książki wynosi : " + bookManager.GetId());
+        var id = bookManager.GetId();
+        Console.WriteLine("Id nowej książki wynosi : " + id);
         Console.WriteLine("Podaj nazwę książki: ");
         var name = Console.ReadLine();
+        Console.WriteLine("Podaj autora: ");
+        var author = Console.ReadLine();
         Console.WriteLine("Podaj cenę książki: ");
         var price = Helpers.JustDecimals();
-        Console.WriteLine("Podaj ilość książek: ");
-        var quantity = Helpers.JustInts();
-        bookManager.AddBook(bookManager.GetId(), name, price, quantity);
+        bookManager.AddBook(id, name, author, price);
     }
 
     public void RemoveBook()
