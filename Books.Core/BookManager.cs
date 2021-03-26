@@ -4,18 +4,29 @@ namespace Books.Core
 {
     public class BookManager
     {
+        // --------------------------------------------------------------------------------
+        /* Tutaj tworzymy funckję statyczną GetManager()
+         * w return towrzymy nowy obiekt FileManager - tu możemy zmienić na DBManager
+         * i to wszystko, dzięki temu moglibyśmy zapisywać w Bazie danych. Jedna zmiana, 
+         * bez ruszania ruszania reszty kodu
+         */
         public static IManager GetManager()
         {
             return new FileManager();
         }
+        // --------------------------------------------------------------------------------
 
         private List<Book> Books { get; set; }
+        // tu tworzymy propertis manager z IManager, gdzie przypisujemy od razu funkcję GetManager()
+        // dzięki temu możemy używać FileManager, lub DBManager. Wystarczy zmienić jedną linijkę wyzej.
         private IManager manager { get; set; } = GetManager();
 
         public BookManager()
         {
             Books = new List<Book>();
-
+            // tu w konstruktorze dodajemy książki z pliku txt to listy Books.
+            // Patrz opis FileManager! wartość bool AddBook jest false, patrz FM.
+            // w końcu nie chcemy odczytywać i od razu zapisywać.
             manager.AddBookToCTor(AddBook);
         }
 
@@ -23,8 +34,13 @@ namespace Books.Core
         {
             var book = new Book(id, name, price, quantity);
             Books.Add(book);
+            // dzięki wartości bool shouldToSave panujemy nad tym czy dodajemy do pliku czy nie.
+            // w konstruktorze nie chcemy tego robić, bo po co, za to jak dodajemy książkę to tak
+            // a że korzystamy z funckji dwa razy, patrz wyżej "2 References"
+            // robimy to, ponieważ chcemy uniknąć pisania tego samego kodu 2 razy.
             if (shouldToSave) manager.AddBook(book);
         }
+
         public void RemoveBook(int id)
         {
             for (int i = 0; i < Books.Count; i++)
@@ -35,21 +51,21 @@ namespace Books.Core
                 }
             }
             // --------------------------------------------------------------------------------------------------------
-            var listBooks = new List<string>();  // tworzymy nową listę książek, ponieważ:
+            // tworzymy nową listę książek
+            var listBooks = new List<string>();  
+            // przechodzimy po każdej książce w liście Books
             foreach (var book in Books)
             {
+                // Dodajemy każdą pozycję do utworzonej książki w formacie
+                // który utowrzyliśmy w Book >> public override string ToString()
                 listBooks.Add(book.ToString());
             }
-            /* Tutaj tworzymy nową listę książek, ułatwia nam to zadanie odejmowania jednej książki z listy. Ponieważ
-             * byłoby to bardzo kłopotliwe przy pliku txt. Duża ilość kodu musiałaby się znaleźć, zdaje sobie sprawę,
-             * że nie jest to optymalne rozwiązanie. Ale czy to nie po to powstały Bazy Danych? Żeby to silnik robił za nas?
-             * Tak więc tworzymi kolejną listę książek tutaj, a w FileManager usuwamy cały plik i zapisujemy nowy z 
-             * listą aktualną z programu (tą którą tutaj stworzyliśmy)
-             */
-
+            
+            // rzucamy tą listę do RemoveBook przez Interface do FileManager, patrz wyżej
             manager.RemoveBook(listBooks);
             // --------------------------------------------------------------------------------------------------------
         }
+
         public int GetId()
         {
             var id = 1;
@@ -60,6 +76,7 @@ namespace Books.Core
             }
             return id;
         }
+
         public List<string> ShowAllBooks()
         {
             List<string> stringBooks = new List<string>();
