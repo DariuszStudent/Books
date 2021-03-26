@@ -28,7 +28,7 @@ public class BooksApp
     public void RemoveBook()
     {
         Console.WriteLine(" Podaj ID ksiazki do usuniecia : ");
-        var id = int.Parse(Console.ReadLine());
+        var id = Helpers.JustInts();
         bookManager.RemoveBook(id);
     }
 

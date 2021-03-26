@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Books.Core
 {
@@ -69,10 +70,13 @@ namespace Books.Core
         public int GetId()
         {
             var id = 1;
-            foreach (var item in Books)
+            // Tworzmy nową listę i sortujemy ją poprzez ID, używamy Linq
+            var sortedList = Books.OrderBy(o => o.Id).ToList();
+            // następnie pokolei lecimy i sprawdzamy id czy jest, jeśli nie ma na liście wyrzucamy je, return
+            foreach (var book in sortedList)
             {
-                if (id == item.Id) id++;
-                else break;
+                if (book.Id == id) id++;
+                else return id;
             }
             return id;
         }
